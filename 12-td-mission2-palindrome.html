@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission 2 – Palindrome</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+    :root {
+      --bg: #0d0d0d;
+      --panel: #161616;
+      --border: #2a2a2a;
+      --accent: #e8ff00;
+      --ok: #00ff88;
+      --ko: #ff4444;
+      --text: #f0f0f0;
+      --muted: #666;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label[for="id-mot-saisi"] {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.9rem 1rem;
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+
+    input[type="button"] {
+      width: 100%;
+      margin-top: 0.75rem;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      padding: 0.9rem 1rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    input[type="button"]:hover {
+      opacity: 0.85;
+    }
+
+    #resultat {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      min-height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    #resultat.ok { border-color: var(--ok); color: var(--ok); }
+    #resultat.ko { border-color: var(--ko); color: var(--ko); }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="label">Mission 2 — WebStart Agency</div>
+    <h1>Vérificateur de Palindrome</h1>
+
+    <!-- Formulaire selon le document annexe 2 -->
+    <div id="boutton">
+      <form action="" method="get">
+        <div class="form-group">
+          <label for="id-mot-saisi">Mot à vérifier</label>
+          <input type="text" name="mot-saisi" id="id-mot-saisi" placeholder="Ex : kayak, radar…">
+        </div>
+        <!-- Le bouton appelle la fonction palindrome() -->
+        <input type="button" value="Vérifier le palindrome" onclick="palindrome()">
+      </form>
+    </div>
+
+    <!-- Paragraphe d'affichage du résultat -->
+    <p id="resultat"></p>
+
+  </div>
+
+  <script>
+    // ── Mission 2 : Vérifier si un mot est un palindrome ─────────────────────
+
+    function palindrome() {
+
+      // 1. Récupération de la valeur saisie dans le champ texte
+      const motSaisi = document.getElementById("id-mot-saisi").value;
+
+      // 2. Nettoyage : on passe en minuscules avec str.toLowerCase()
+      //    pour rendre la comparaison insensible à la casse
+      const motNormalise = motSaisi.toLowerCase().trim();
+
+      // 3. Vérification : on retourne le mot et on le compare à l'original
+      //    split("") → transforme la chaîne en tableau de lettres
+      //    reverse()  → inverse l'ordre du tableau
+      //    join("")   → ré-assemble le tableau en chaîne
+      const motInverse = motNormalise.split("").reverse().join("");
+
+      // 4. Récupération de l'élément résultat
+      const resultat = document.getElementById("resultat");
+
+      // 5. Affichage du résultat avec mise en forme visuelle
+      if (motNormalise === "" ) {
+        // Cas où le champ est vide
+        resultat.textContent = "⚠️ Veuillez saisir un mot.";
+        resultat.className = "";
+      } else if (motNormalise === motInverse) {
+        // Le mot est identique à son inverse → c'est un palindrome
+        resultat.textContent = `✅ "${motSaisi}" est un palindrome !`;
+        resultat.className = "ok";
+      } else {
+        // Le mot diffère de son inverse → ce n'est pas un palindrome
+        resultat.textContent = `❌ "${motSaisi}" n'est pas un palindrome.`;
+        resultat.className = "ko";
+      }
+    }
+  </script>
+</body>
+</html>
