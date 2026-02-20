@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mission 1 – Mot le plus long</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+    :root {
+      --bg: #0d0d0d;
+      --panel: #161616;
+      --border: #2a2a2a;
+      --accent: #e8ff00;
+      --text: #f0f0f0;
+      --muted: #666;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 680px;
+      width: 100%;
+    }
+
+    .label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card .card-title {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    #citation {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ccc;
+      font-style: italic;
+    }
+
+    .result-card {
+      background: var(--panel);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .result-card .icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .result-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    #motPlusLong {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      min-height: 2.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 0.15rem 0.4rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="label">Mission 1 — WebStart Agency</div>
+    <h1>Mot le plus long</h1>
+
+    <div class="card">
+      <div class="card-title">Citation analysée</div>
+      <!-- Paragraphe source contenant la citation -->
+      <p id="citation">Choisissez un travail que vous aimez et vous n'aurez pas à travailler un seul jour de votre vie.</p>
+    </div>
+
+    <div class="result-card">
+      <div class="icon">🏆</div>
+      <div>
+        <div class="result-label">Mot le plus long trouvé</div>
+        <!-- Paragraphe où s'affiche le résultat -->
+        <p id="motPlusLong"></p>
+        <span class="badge" id="longueur"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ── Mission 1 : Trouver le mot le plus long d'une phrase ──────────────────
+
+    // 1. Récupération du texte dans le paragraphe "citation"
+    const citation = document.getElementById("citation").textContent;
+
+    // 2. Suppression de la ponctuation avec str.replace()
+    //    On remplace tout caractère qui n'est pas une lettre ou un espace par ""
+    const citationNettoyee = citation.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
+
+    // 3. Découpage en tableau de mots avec str.split()
+    const tableauMots = citationNettoyee.split(" ");
+
+    // 4. Recherche du mot le plus long par itération du tableau
+    let motLePlusLong = "";
+
+    for (let i = 0; i < tableauMots.length; i++) {
+      // Si le mot courant est plus long que le mot enregistré, on le remplace
+      if (tableauMots[i].length > motLePlusLong.length) {
+        motLePlusLong = tableauMots[i];
+      }
+    }
+
+    // 5. Affichage du résultat dans le paragraphe "motPlusLong"
+    document.getElementById("motPlusLong").textContent = motLePlusLong;
+    document.getElementById("longueur").textContent = motLePlusLong.length + " lettres";
+  </script>
+</body>
+</html>
